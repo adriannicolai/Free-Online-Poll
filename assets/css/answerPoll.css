@@ -1,0 +1,69 @@
+form{
+        margin: 0px;
+        margin: auto;
+    }
+        div.formHeader span{
+            font-size: 12px;
+        }
+        form p{
+            color: white;
+        }
+        form div.options{
+            display: flex;
+            height: 30px;
+            background-color: black;
+            border-radius: 5px;
+        }
+        form div.options {
+            display: flex;
+            justify-content: flex-start;
+            align-content: stretch;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        form input[name='options[]']{
+            width: 20px;
+        }
+        form label{
+            color: white;
+        }
+        section article{
+            padding: 0px;
+        }
+    footer{
+        width: 100%;
+        font-size: 12px;
+    }
+    .tagContainer{
+        display: flex;
+        border-radius: 5px;
+        padding: 5px;
+        height: 35px;
+    }
+    .tagContainer .tag{
+        padding: 5px;
+        border: 1px solid white;
+        display: flex;
+        align-items: center;
+        margin-right: 5px;
+        border-radius: 5px;
+    }
+    .tagContainer input{
+        flex: 1;
+        font-size: 15px;
+        padding: 5px;
+        outline: none;
+        border: 0;
+    }
+    footer h4{
+        margin: 0px;
+    }
+    form input[type=submit]{
+        width: 100px;
+        background-color: limegreen;
+    }
+#question{
+    color: white;
+}

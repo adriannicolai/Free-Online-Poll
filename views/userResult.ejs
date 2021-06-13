@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Show Result</title>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/polls.css">
+        <link rel="stylesheet" href="css/results.css">
+        <script src="js/createPoll.js" defer></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            function displayResult(data) {
+                    let resultHTML = '';
+                    for (let x = 0; x < data.optionsValues.length; x++) {
+                        let percentage = (Math.round((data.optionsValues[x].voteCount / data.voteCount * 100) * 100) / 100);
+                        if (data.optionsValues[x].voteCount == 0) {
+                            percentage = 0;
+                        }
+                        resultHTML += '<div class="chart">';
+                        resultHTML += '<p>' + data.optionsValues[x].option + '</p>';
+                        resultHTML += '<div class="bar" style="width:' + percentage + '%;"><span id="filler">0</span></div>';
+                        resultHTML += '<p class="barLabel">' + data.optionsValues[x].voteCount + ' | ' + percentage + '%</p></div>';
+                    }
+                    document.getElementById('barChart').innerHTML = resultHTML;
+                    document.getElementById('voterCount').innerHTML = data.voteCount;
+                }
+            const socket = io("http://localhost:3000");
+            const joiningId = <%- JSON.stringify(formData.pollId); %>;
+            socket.emit('checkPollResult', joiningId);
+            socket.on('servePollResult', function (data) {
+                displayResult(data);
+            });
+            socket.on('newVote', function () {
+                socket.emit('checkPollResult', joiningId);
+            });
+        </script>
+    </head>
+
+    <body class="one_pager">
+        <%- include('partials/header'); %>
+            <section>
+                <%=  %>
+                <form action="" method="post">
+                    <div class="formHeader">
+                        <p>Voters <span id="voterCount"></span> </p>
+                    </div>
+                    <hr>
+                    <h1 id="questionTag"></h1>
+                    <div class="barChart" id="barChart"></div>
+                </form>
+            </section>
+    </body>
+
+</html>

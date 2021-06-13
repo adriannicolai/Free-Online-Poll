@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Poll</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/polls.css">
+    <script src="js/createPoll.js" defer></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="one_pager">
+    <%- include('partials/header'); %>
+    <section>
+        <div class="url_div">
+            <p id="url_link"></p>
+            <a href="" id="copytext">Copy Poll URL</a>
+        </div>
+        <form action="/showResult" method="post" id="pollForm">
+            <div class="formHeader">
+                <h1>Question</h1>
+                <a href="" id="restart"><img src="images/restart.png" alt="" height="30" width="30"></a>
+            </div>
+            <hr>
+            <input type="text" name="question" id="question" placeholder="Type your question here">
+            <div class="questions" id="questions">
+                <input type="text" name="options[]" placeholder="option 1" class="options">
+                <input type="text" name="options[]" placeholder="option 2" class="options">
+                <input type="text" name="options[]" placeholder="option 3" class="options">
+                <input type="text" name="options[]" placeholder="option 4" class="options">
+            </div>
+            <a href="" id="addOption"> <span>+</span> Add Question</a>
+            <hr>
+            <input type="hidden" name="pollId" id="pollId">
+            <input type="submit" value="Start collecting responses and share result.">
+        </form>
+    </section>
+</body>
+</html>

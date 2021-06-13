@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Answer Poll</title>
+        <link rel="stylesheet" href="../css/main.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <link rel="stylesheet" href="../css/polls.css">
+        <link rel="stylesheet" href="../css/answerPoll.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            const socket = io("http://localhost:3000");
+            $(document).ready(function(){
+                $(document).on('click', 'input[type=radio]', function(){
+                    $('input[type=radio]').parent().css('background', 'black');
+                    $(this).parent().css('background', '#48ae48');
+                });
+                const joiningId = <%- JSON.stringify(id) %>;
+                socket.emit('joinPoll', joiningId);
+                socket.on('updateAnswerPollForm', function (data) {
+                    displayQuestions(data);
+                });
+                socket.on('serveQuestions', function(data){
+                    displayQuestions(data);
+                });
+                function displayQuestions(data){
+                    document.getElementById('question').innerHTML = data.question;
+                    let questionsHTML = '';
+                    if (data.optionsValues.length > 0) {
+                        for (let x = 0; x < data.optionsValues.length; x++) {
+                            questionsHTML += '<div class="options">';
+                            questionsHTML += '<input type="radio" id="' + data.optionsValues[x].option + '" name="options[]" value="' + data.optionsValues[x].option + '">';
+                            questionsHTML += '<label for="' + data.optionsValues[x].option + '">' + data.optionsValues[x].option + '</label><br>';
+                            questionsHTML += '</div>';
+                        }
+                    }
+                    document.getElementById('questions').innerHTML = questionsHTML;
+                    document.getElementById('formHeader').innerHTML = '<h1>Question <span>(read the question carefully and select your answer)</span></h1>';
+                    document.getElementById('vote').innerHTML = '<hr><input type = "submit" value = "Vote" >';
+                }
+                document.getElementById('form').addEventListener('submit', function(e){
+                    let checked = document.querySelector('input[type=radio]:checked');
+                    if(checked){
+                        socket.emit('formSubmited', { pollId: joiningId, selectedOption: checked.value });
+                        document.getElementById('pollId').value = joiningId
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body class="one_pager">
+        <header>
+            <img src="../images/hh_logo_beta.svg" alt="">
+        </header>
+        <section>
+            <article>
+                <h1>Answer Poll</h1>
+                <p>and see the result in real-time.</p>
+            </article>
+            <form action="/voteResult" method="post" id="form">
+                <div class="formHeader" id='formHeader'>
+                    <h1>Please wait until your teacher starts the poll</h1>
+                </div>
+                <hr>
+                <h1 id="question"></h1>
+                <div class="questions" id="questions"></div>
+                <div id="vote"></div>
+                <input type="hidden" name="pollId" id="pollId">
+            </form>
+        </section>
+    </body>
+</html>
