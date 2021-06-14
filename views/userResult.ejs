@@ -27,7 +27,7 @@
                     document.getElementById('barChart').innerHTML = resultHTML;
                     document.getElementById('voterCount').innerHTML = data.voteCount;
                 }
-            const socket = io("http://localhost:3000");
+            const socket = io("");
             const joiningId = <%- JSON.stringify(formData.pollId); %>;
             socket.emit('checkPollResult', joiningId);
             socket.on('servePollResult', function (data) {

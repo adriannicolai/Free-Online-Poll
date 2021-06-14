@@ -20,7 +20,7 @@ const socket = io("");
 socket.emit('newPoll');
 socket.on('servePollId', function(pollId){
     currentPollID = pollId;
-    const url = 'http://localhost:3000/answerPoll/'+ pollId; 
+    const url = 'https://hacker-hero-live-polling.herokuapp.com/answerPoll/'+ pollId; 
     document.getElementById('url_link').innerHTML = url;
     document.getElementById('pollId').value = currentPollID;
 });
