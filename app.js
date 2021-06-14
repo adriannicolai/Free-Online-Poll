@@ -4,7 +4,9 @@ const ejs        = require('ejs');
 const Router     = require('./routes'); 
 const bodyParser = require('body-parser');
 
-const server  = app.listen(proceess.env.PORT);
+const server  = app.listen(3000, function(){
+    console.log('listenign at 3000!')
+});
 const io      = require('socket.io')(server);
 
 app.set('view engine', 'ejs');
@@ -83,4 +85,12 @@ io.on('connect', function(socket){
             }
         }
     });
+    // socket.on('disconnect', function(){
+    //     for(let x=0; x<activePolls.length; x++){
+    //         if(socket.id == activePolls[x].socketId){
+    //             activePolls[x] = activePolls[x-1];
+    //             activePolls.pop();
+    //         }
+    //     }
+    // });
 });
