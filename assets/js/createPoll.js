@@ -16,11 +16,13 @@ document.getElementById('restart').addEventListener('click', function (e) {
     location.reload();
 });
 var currentPollID = '';
-const socket = io("http://localhost:3000");
+const socket = io("");
 socket.emit('newPoll');
 socket.on('servePollId', function(pollId){
     currentPollID = pollId;
-    const url = 'http://localhost:3000/answerPoll/' + currentPollID; 
+  
+    const url = 'https://hacker-hero-live-polling.herokuapp.com/answerPoll/'+ pollId; 
+
     document.getElementById('url_link').innerHTML = url;
     document.getElementById('pollId').value = currentPollID;
 });
