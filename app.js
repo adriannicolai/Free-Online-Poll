@@ -85,12 +85,4 @@ io.on('connect', function(socket){
             }
         }
     });
-    // socket.on('disconnect', function(){
-    //     for(let x=0; x<activePolls.length; x++){
-    //         if(socket.id == activePolls[x].socketId){
-    //             activePolls[x] = activePolls[x-1];
-    //             activePolls.pop();
-    //         }
-    //     }
-    // });
 });

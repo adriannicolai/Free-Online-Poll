@@ -20,7 +20,7 @@ const socket = io("http://localhost:3000");
 socket.emit('newPoll');
 socket.on('servePollId', function(pollId){
     currentPollID = pollId;
-    const url = 'http://localhost:3000/answerPoll/'+ pollId; 
+    const url = 'http://localhost:3000/answerPoll/' + currentPollID; 
     document.getElementById('url_link').innerHTML = url;
     document.getElementById('pollId').value = currentPollID;
 });
