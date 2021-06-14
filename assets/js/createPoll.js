@@ -16,7 +16,7 @@ document.getElementById('restart').addEventListener('click', function (e) {
     location.reload();
 });
 var currentPollID = '';
-const socket = io("http://localhost:3000");
+const socket = io("");
 socket.emit('newPoll');
 socket.on('servePollId', function(pollId){
     currentPollID = pollId;
