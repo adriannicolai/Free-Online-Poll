@@ -5,9 +5,9 @@ const Router     = require('./routes');
 const bodyParser = require('body-parser');
 
 const server  = app.listen(process.env.PORT || 3000, function(){
-    console.log('listenign at 3000!')
+    console.log('listening at 3000!')
 });
-const io      = require('socket.io')(server);
+const io = require('socket.io')(server);
 
 app.set('view engine', 'ejs');
 
@@ -35,7 +35,7 @@ io.on('connect', function(socket){
                     pollId = randomNumber(activePolls[x].socketId);
                 }
             }
-            activePolls.push({pollId:pollId, socketId:socket.id, voteCount: 0});
+            activePolls.push({pollId: pollId, socketId: socket.id, voteCount: 0});
             socket.join(pollId);
             socket.emit('servePollId', pollId);
         }
