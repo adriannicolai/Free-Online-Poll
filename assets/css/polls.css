@@ -6,15 +6,17 @@
         padding: 7px;
         border-radius: 5px;
         height: 36px;
+        min-width: 700px;
     }
         div.url_div p{
+            display: flex;
             margin: 0px;
         }
         div.url_div a{
-            position: relative;
             top: -25px;
             left: 320px;
             color: rgb(82, 114, 220);
+            font-size: 14px;
         }
         div.url_div a:active{
             color: red;
