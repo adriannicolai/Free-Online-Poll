@@ -16,11 +16,14 @@ app.use(express.static(__dirname + '/assets'));
 
 app.use(Router);
 var activePolls = [];
+
 function randomNumber(takenId){
     let randomNumber = Math.floor(Math.random()*99999);
+
     if(randomNumber != takenId){
         return randomNumber;
     }
+
     randomNumber(takenId);
 }
 
@@ -29,12 +32,14 @@ io.on('connect', function(socket){
     /* runs every new poll */
     socket.on('newPoll', function(){
         let pollId = randomNumber();
+
         if(activePolls.length>0){
             for(let x=0; x<activePolls.length; x++){
                 if(pollId == activePolls[x].socketId){
                     pollId = randomNumber(activePolls[x].socketId);
                 }
             }
+
             activePolls.push({pollId: pollId, socketId: socket.id, voteCount: 0});
             socket.join(pollId);
             socket.emit('servePollId', pollId);
@@ -47,7 +52,10 @@ io.on('connect', function(socket){
     });
     socket.on('joinPoll', function(joinId){
         let intJoinId = parseInt(joinId);
+
+        /* Join the socket */
         socket.join(intJoinId);
+
         for(let x=0; x<activePolls.length; x++){
             if(activePolls[x].pollId == intJoinId && (activePolls[x].question || activePolls[x].optionsValues)){
                 socket.emit('serveQuestions', activePolls[x]);
@@ -79,6 +87,7 @@ io.on('connect', function(socket){
     socket.on('checkPollResult', function(pollId){
         pollId = parseInt(pollId);
         socket.join(pollId);
+
         for(let x=0; x<activePolls.length; x++){
             if(activePolls[x].pollId == pollId){
                 socket.emit('servePollResult', activePolls[x]);
