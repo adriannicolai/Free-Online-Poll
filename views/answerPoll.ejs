@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +17,7 @@
                     $('input[type=radio]').parent().css('background', 'black');
                     $(this).parent().css('background', '#48ae48');
                 });
+
                 const joiningId = <%- JSON.stringify(id) %>;
                 socket.emit('joinPoll', joiningId);
                 socket.on('updateAnswerPollForm', function (data) {
@@ -29,6 +29,7 @@
                 function displayQuestions(data){
                     document.getElementById('question').innerHTML = data.question;
                     let questionsHTML = '';
+
                     if (data.optionsValues.length > 0) {
                         for (let x = 0; x < data.optionsValues.length; x++) {
                             questionsHTML += '<div class="options">';
@@ -37,12 +38,15 @@
                             questionsHTML += '</div>';
                         }
                     }
-                    document.getElementById('questions').innerHTML = questionsHTML;
+
+                    document.getElementById('questions').innerHTML  = questionsHTML;
                     document.getElementById('formHeader').innerHTML = '<h1>Question <span>(read the question carefully and select your answer)</span></h1>';
-                    document.getElementById('vote').innerHTML = '<hr><input type = "submit" value = "Vote" >';
+                    document.getElementById('vote').innerHTML       = '<hr><input type = "submit" value = "Vote" >';
                 }
+
                 document.getElementById('form').addEventListener('submit', function(e){
                     let checked = document.querySelector('input[type=radio]:checked');
+
                     if(checked){
                         socket.emit('formSubmited', { pollId: joiningId, selectedOption: checked.value });
                         document.getElementById('pollId').value = joiningId
