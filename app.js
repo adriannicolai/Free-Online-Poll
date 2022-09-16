@@ -66,12 +66,14 @@ io.on('connect', function(socket){
         for(let x=0; x<activePolls.length; x++){
             if(activePolls[x].pollId == formData.pollId){
                 activePolls[x].voteCount += 1;
+
                 for(let y in activePolls[x].optionsValues){
                     if(activePolls[x].optionsValues[y].option == formData.selectedOption)
                     activePolls[x].optionsValues[y].voteCount+= 1;
                 }
             }
         }
+
         socket.to(parseInt(formData.pollId)).emit('newVote');
     });
     socket.on('updateAnswerPollForm', function(data){
@@ -82,6 +84,7 @@ io.on('connect', function(socket){
                 activePolls[x].optionsValues = data.optionsValues;
             }
         }
+
         socket.to(data.pollId).emit('updateAnswerPollForm', data);
     });
     socket.on('checkPollResult', function(pollId){
